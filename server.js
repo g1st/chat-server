@@ -61,6 +61,36 @@ app.post('/messages', (req, res) => {
   }
 });
 
+app.put('/messages/edit/:id', (req, res) => {
+  const id = Number(req.params.id);
+  const message = req.body;
+
+  if (!message.text || !message.from) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Message 'text' or 'from' missing." });
+  }
+
+  if (checkIfExists(id)) {
+    data.map((msg) => {
+      if (msg.id === id) {
+        msg.text = message.text;
+        msg.from = message.from;
+      }
+      return msg;
+    });
+    res.json({ success: true, message: 'Message updated' });
+  } else {
+    res
+      .status(400)
+      .json({ success: false, message: `Message with id ${id} don't exist.` });
+  }
+
+  function checkIfExists(id) {
+    return data.find((msg) => msg.id === id);
+  }
+});
+
 // Get message by specified id
 app.get('/messages/:id', (req, res) => {
   const { id } = req.params;
