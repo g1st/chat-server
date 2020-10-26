@@ -19,11 +19,27 @@ let data = [
   },
 ];
 
+// read body data as json
 app.use(express.json());
 
 // get all messages
 app.get('/messages', (req, res) => {
-  res.json(data);
+  res.json({ success: true, data });
+});
+
+// get messages by search term
+app.get('/messages/search', (req, res) => {
+  const { term } = req.query;
+  const matchingMessages = data.filter((msg) =>
+    msg.text.toLowerCase().includes(term.toLowerCase())
+  );
+  res.json({ success: true, data: matchingMessages });
+});
+
+// get latest 10 messages
+app.get('/messages/latest', (req, res) => {
+  const latest10 = data.slice(-10);
+  res.json({ success: true, data: latest10 });
 });
 
 // create a new message
