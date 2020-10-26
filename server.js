@@ -34,7 +34,7 @@ app.post('/messages', (req, res) => {
     data.push(message);
     res.json({ success: true, message: 'Your message has been added.' });
   } else {
-    res.json({
+    res.status(400).json({
       success: false,
       message: 'No "text" or "from" has been supplied.',
     });
