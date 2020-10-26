@@ -6,16 +6,19 @@ let data = [
     id: 1,
     text: 'Hello from Tom',
     from: 'Tom',
+    timeSent: '2020-10-26T10:09:02.016Z',
   },
   {
     id: 2,
     text: 'Hello from Jerry',
     from: 'Jerry',
+    timeSent: '2020-10-26T10:09:02.016Z',
   },
   {
     id: 3,
     text: 'Hello from Mickey',
     from: 'Mickey',
+    timeSent: '2020-10-26T10:09:02.016Z',
   },
 ];
 
@@ -47,6 +50,7 @@ app.post('/messages', (req, res) => {
   const message = req.body;
   if (message.text && message.from) {
     message.id = data.length + 1;
+    message.timeSent = new Date();
     data.push(message);
     res.json({ success: true, message: 'Your message has been added.' });
   } else {
