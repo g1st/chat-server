@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 
 let data = [
@@ -25,6 +26,8 @@ let data = [
 // read body data as json
 app.use(express.json());
 
+app.use(cors());
+
 // get all messages
 app.get('/messages', (req, res) => {
   res.json({ success: true, data });
@@ -41,17 +44,17 @@ app.get('/messages/search', (req, res) => {
 
 // get latest 10 messages
 app.get('/messages/latest', (req, res) => {
-  const latest10 = data.slice(-10);
-  res.json({ success: true, data: latest10 });
+  const latest = data.slice(0, 5);
+  res.json({ success: true, data: latest });
 });
 
 // create a new message
 app.post('/messages', (req, res) => {
   const message = req.body;
   if (message.text && message.from) {
-    message.id = data.length + 1;
+    message.id = Math.max(...data.map((msg) => msg.id)) + 1;
     message.timeSent = new Date();
-    data.push(message);
+    data.unshift(message);
     res.json({ success: true, message: 'Your message has been added.' });
   } else {
     res.status(400).json({
@@ -108,7 +111,7 @@ app.get('/messages/:id', (req, res) => {
 // Delete message by specified id
 app.delete('/messages/:id', (req, res) => {
   const { id } = req.params;
-  data = data.filter((msg) => msg.id !== id);
+  data = data.filter((msg) => msg.id !== Number(id));
 
   res.json({ success: true, message: 'Message deleted.' });
 });
