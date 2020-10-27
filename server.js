@@ -28,6 +28,26 @@ app.use(express.json());
 
 app.use(cors());
 
+app.get('/', (req, res) => {
+  res.write('Usage: \n');
+  res.write('\n');
+  res.write('GET "/messages"\n');
+  res.write('  get all messages\n');
+  res.write('GET "/messages/:id"\n');
+  res.write('  get message by id\n');
+  res.write('GET "/messages/search?term=YOUR_SEARCH_TERM"\n');
+  res.write('  filter author and text by search term\n');
+  res.write('GET "/messages/latest"\n');
+  res.write('  only last 5 messages\n');
+  res.write('POST "/messages"\n');
+  res.write('  create message\n');
+  res.write('PUT "/messages/edit/:id"\n');
+  res.write('  edit message\n');
+  res.write('DELETE "/messages/:id"\n');
+  res.write('  delete message\n');
+  res.end();
+});
+
 // get all messages
 app.get('/messages', (req, res) => {
   res.json({ success: true, data });
