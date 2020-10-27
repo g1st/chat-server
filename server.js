@@ -117,7 +117,7 @@ app.put('/messages/edit/:id', (req, res) => {
 // Get message by specified id
 app.get('/messages/:id', (req, res) => {
   const { id } = req.params;
-  const message = data.filter((msg) => msg.id === id);
+  const message = data.filter((msg) => msg.id === Number(id));
   if (message.length > 0) {
     res.json({ success: true, message });
   } else {
