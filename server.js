@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const test    =  'test '
+const test =  'test '
 
 let data = [
   {
